@@ -1,5 +1,5 @@
 *.pyc
 __pycache__
-myvenv
+libvenv
 db.sqlite3
-.DS_Storegit
+.DS_Store
