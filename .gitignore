@@ -3,3 +3,5 @@ __pycache__
 libvenv
 db.sqlite3
 .DS_Store
+.idea
+libraryapp/migrations
