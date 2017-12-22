@@ -25,7 +25,7 @@ SECRET_KEY = ')eu7q%maa(4h5x&74rcqx-^j-g-r4yax%#1(jj=)7wp=pvgn!d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['szymongor.pythonanywhere.com','127.0.0.1']
+ALLOWED_HOSTS = ['szymongor.pythonanywhere.com','127.0.0.1','localhost',]
 
 
 # Application definition
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'libraryapp',
+    'rest_framework',
+    
 ]
 
 MIDDLEWARE = [
