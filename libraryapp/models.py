@@ -27,16 +27,7 @@ class Ksiazka(models.Model):
     isbn_issn = models.CharField(max_length=100,null=True)
     typ = models.CharField(max_length=10, choices=TYP_CHOICES)
     dostepnosc = models.CharField(max_length=10, choices=DOSTEPNOSC_CHOICES)
+    kategoria = models.ManyToManyField(Kategorie)
 
     def __str__(self):
         return str(self.syg_ms)+" "+self.tytul
-
-class PrzypisanieKategorii(models.Model):
-    syg_ms = models.ForeignKey(Ksiazka, db_column="syg_ms", to_field='syg_ms',related_name='kategorie', on_delete=models.CASCADE)
-    id_kategorii = models.ForeignKey(Kategorie, db_column="id_kategorii", to_field='id_kategorii',on_delete=models.CASCADE)
-
-    def __str__(self):
-        return '%d: %s' % (self.syg_ms.syg_ms, self.id_kategorii)
-
-    class Meta:
-        unique_together = ('syg_ms', 'id_kategorii')
