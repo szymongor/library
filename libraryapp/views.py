@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from rest_framework.parsers import FileUploadParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -19,14 +20,20 @@ class KsiazkaList(APIView):
     def post(self):
         pass
 
-class KsiazkaListProtected(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    authentication_classes = (authentication.JWTAuthentication,)
+class CsvImport(APIView):
+    #permission_classes = (permissions.IsAuthenticated,)
+    #authentication_classes = (authentication.JWTAuthentication,)
 
-    def get(self,request):
-        ksiazka = Ksiazka.objects.all()
-        serializer = KsiazkaSerializer(ksiazka, many=True)
-        return Response(serializer.data)
+    parser_classes = (FileUploadParser,)
 
-    def post(self):
-        pass
+    def put(self, request, filename, format=None):
+        file_obj = request.FILES['file']
+        # do some stuff with uploaded file
+        with open(filename, 'r') as f:
+            first_line = f.readline()
+
+        data = {'articles': first_line}
+        response = Response(data,status=204)
+        response.data = data
+        return Response(data)
+
