@@ -8,6 +8,8 @@ from .models import Ksiazka
 from .serializers import KsiazkaSerializer
 from rest_framework_simplejwt import authentication
 from rest_framework import permissions
+from .CSVImporter.CSVImporter import CSVImporter
+from io import TextIOWrapper
 
 class KsiazkaList(APIView):
 
@@ -27,13 +29,17 @@ class CsvImport(APIView):
     parser_classes = (FileUploadParser,)
 
     def put(self, request, filename, format=None):
-        file_obj = request.FILES['file']
+        file_obj = TextIOWrapper(request.FILES['file'].file, encoding=request.encoding)
+        #file_obj = request.FILES['file']
         # do some stuff with uploaded file
-        with open(filename, 'r') as f:
-            first_line = f.readline()
+        #with open(filename, 'r') as f:
+        #    first_line = f.readline()
+        csvImporter = CSVImporter()
+        first_line = csvImporter.importFromFile(file_obj)
 
-        data = {'articles': first_line}
+        data = {'file': first_line}
         response = Response(data,status=204)
         response.data = data
+        file_obj.close()
         return Response(data)
 
