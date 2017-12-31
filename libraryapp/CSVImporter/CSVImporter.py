@@ -2,23 +2,43 @@ import csv
 
 from django.db import IntegrityError
 
-from ..models import Ksiazka
+from ..models import Ksiazka, Kategorie
 
 class CSVImporter:
 
+
     def importFromFile(self, file_object):
-        returnStr = ''
-        firstLine = file_object.readline()
+        return_str = ''
+        first_line = file_object.readline()
+
         csvreader = csv.reader(file_object, delimiter=',', quotechar='"')
-        for row in csvreader:
-            returnStr += self.rowToKsiazka(row)
+
+        import_type = self.chooseImportTypeByFirstLine(first_line)
+        if import_type == 'ksiazki':
+            for row in csvreader:
+                return_str += self.rowToKsiazka(row)
+        elif import_type == 'kategorie':
+            for row in csvreader:
+                return_str += self.rowToKategoria(row)
+        elif import_type == 'przyppisaniekategorii':
+            for row in csvreader:
+                return_str += self.rowToPrzypisanieKategorii(row)
 
 
         #lines = file_object.readlines()
         #for line in lines:
         #    returnStr += self.lineToKsiazka(line)
 
-        return returnStr
+        return return_str
+
+    def chooseImportTypeByFirstLine(self,first_line):
+        if 'SYG_MS' in first_line and 'TYTUL' in first_line:
+            return 'ksiazki'
+        elif 'KATEGORIA' in first_line:
+            return 'kategorie'
+        elif 'SYG_MS' in first_line and 'ID_KATEGORII' in first_line:
+            return 'przyppisaniekategorii'
+
 
     def rowToKsiazka(self,row):
         importStatus = "|Ksiazka syg_ms: "
@@ -57,3 +77,40 @@ class CSVImporter:
             pass
 
         return importStatus
+
+    def rowToKategoria(self,row):
+        importStatus = "|Kategoria id: "
+        try:
+            ID_KATEGORII = row[0]
+            KATEGORIA = row[1]
+            try:
+                kategoria = Kategorie.objects.create(id_kategorii=ID_KATEGORII)
+                kategoria.kategoria = KATEGORIA
+                kategoria.save()
+                importStatus += "= SUCCESS|"
+            except IntegrityError:
+                importStatus += "= ALREADY EXISTS|"
+                pass
+        except IndexError:
+            pass
+        return importStatus
+
+
+    def rowToPrzypisanieKategorii(self,row):
+        importStatus = "|Przypisanie id: "
+        try:
+            SYG_MS = row[0]
+            ID_KATEGORII = row[1]
+            try:
+                importStatus+=SYG_MS+":"+ID_KATEGORII
+                ksiazka = Ksiazka.objects.get(syg_ms=SYG_MS)
+                kategoria = Kategorie.objects.get(id_kategorii=ID_KATEGORII)
+                ksiazka.kategoria.add(kategoria)
+                importStatus += "= SUCCESS|"
+            except:
+                importStatus += "=ERROR|"
+        except:
+            pass
+
+        return importStatus
+
