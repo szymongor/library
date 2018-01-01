@@ -13,9 +13,8 @@ from io import TextIOWrapper
 
 class KsiazkaList(APIView):
 
-
     def get(self,request):
-        ksiazka = Ksiazka.objects.all()
+        ksiazka = Ksiazka.objects.all().order_by('-syg_ms')[:100:1]
         serializer = KsiazkaSerializer(ksiazka, many=True)
         return Response(serializer.data)
 
@@ -30,14 +29,10 @@ class CsvImport(APIView):
 
     def put(self, request, filename, format=None):
         file_obj = TextIOWrapper(request.FILES['file'].file, encoding=request.encoding)
-        #file_obj = request.FILES['file']
-        # do some stuff with uploaded file
-        #with open(filename, 'r') as f:
-        #    first_line = f.readline()
         csvImporter = CSVImporter()
-        first_line = csvImporter.importFromFile(file_obj)
+        import_status = csvImporter.importFromFile(file_obj).getImportStatus()
 
-        data = {'file': first_line}
+        data = {'Import status': import_status}
         response = Response(data,status=204)
         response.data = data
         file_obj.close()
