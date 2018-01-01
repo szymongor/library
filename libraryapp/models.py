@@ -27,7 +27,7 @@ class Ksiazka(models.Model):
     isbn_issn = models.CharField(max_length=100,null=True)
     typ = models.CharField(max_length=10, choices=TYP_CHOICES)
     dostepnosc = models.CharField(max_length=10, choices=DOSTEPNOSC_CHOICES)
-    kategoria = models.ManyToManyField(Kategorie,null=True)
+    kategoria = models.ManyToManyField(Kategorie,blank=True)
 
     def __str__(self):
         return str(self.syg_ms)+" "+self.tytul
