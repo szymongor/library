@@ -10,6 +10,7 @@ from rest_framework_simplejwt import authentication
 from rest_framework import permissions
 from .CSVImporter.CSVImporter import CSVImporter
 from io import TextIOWrapper
+from .DAO.KsiazkaDAO import KsiazkaDAO
 
 class KsiazkaList(APIView):
 
@@ -18,8 +19,13 @@ class KsiazkaList(APIView):
         serializer = KsiazkaSerializer(ksiazka, many=True)
         return Response(serializer.data)
 
-    def post(self):
-        pass
+    def post(self,request):
+        ksiazka_DAO = KsiazkaDAO()
+        ksiazka = ksiazka_DAO.getKsiazka(request.data['query'])
+        serializer = KsiazkaSerializer(ksiazka, many=True)
+        return Response(serializer.data)
+
+        return Response(request.data)
 
 class CsvImport(APIView):
     #permission_classes = (permissions.IsAuthenticated,)
