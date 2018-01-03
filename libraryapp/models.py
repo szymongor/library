@@ -7,6 +7,10 @@ class Kategorie(models.Model):
     def __str__(self):
         return self.id_kategorii+" "+self.kategoria
 
+    class Meta:
+        verbose_name = "Kategoria"
+        verbose_name_plural = "Kategorie"
+
 class Ksiazka(models.Model):
     TYP_CHOICES = (
         ('podręcznik', 'podręcznik'),
@@ -31,3 +35,7 @@ class Ksiazka(models.Model):
 
     def __str__(self):
         return str(self.syg_ms)+" "+self.tytul
+
+    class Meta:
+        verbose_name = "Książki"
+        verbose_name_plural = "Książki"
