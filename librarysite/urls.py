@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from libraryapp import views
 
@@ -26,6 +26,7 @@ from rest_framework_simplejwt.views import (
 from libraryapp.views import CsvImport
 
 urlpatterns = [
+    path('', include('libraryapp.urls')),
     path('admin/', admin.site.urls),
     path('ksiazka/', views.KsiazkaList.as_view()),
     path('upload/<filename>/', CsvImport.as_view()),

@@ -25,8 +25,6 @@ class KsiazkaList(APIView):
         serializer = KsiazkaSerializer(ksiazka, many=True)
         return Response(serializer.data)
 
-        return Response(request.data)
-
     def put(self, request):
         ksiazka_DAO = KsiazkaDAO()
         ksiazka_DAO.addKsiazka(request.data['ksiazka'])
@@ -60,3 +58,5 @@ class CsvImport(APIView):
         file_obj.close()
         return Response(data)
 
+def library_site(request):
+    return render(request, 'librarysite/index.html', {})
