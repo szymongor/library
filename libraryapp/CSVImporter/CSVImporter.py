@@ -3,13 +3,13 @@ import csv
 from django.db import IntegrityError
 
 from ..models import Ksiazka, Kategorie
-from .ImportStatus import ImportStatus, ImportStatusCollection
+from .ResponseStatus import ResponseStatus, ResponseStatusCollection
 
 class CSVImporter:
 
 
     def importFromFile(self, file_object):
-        import_status_collection = ImportStatusCollection()
+        import_status_collection = ResponseStatusCollection()
         first_line = file_object.readline()
 
         csvreader = csv.reader(file_object, delimiter=',', quotechar='"')
@@ -46,7 +46,7 @@ class CSVImporter:
 
 
     def rowToKsiazka(self,row):
-        importStatus = ImportStatus()
+        importStatus = ResponseStatus()
         try:
             SYG_MS = row[0]
             SYG_BG = row[1]
@@ -84,7 +84,7 @@ class CSVImporter:
         return importStatus
 
     def rowToKategoria(self,row):
-        importStatus = ImportStatus()
+        importStatus = ResponseStatus()
         try:
             ID_KATEGORII = row[0]
             KATEGORIA = row[1]
@@ -103,7 +103,7 @@ class CSVImporter:
 
 
     def rowToPrzypisanieKategorii(self,row):
-        importStatus = ImportStatus()
+        importStatus = ResponseStatus()
         try:
             SYG_MS = row[0]
             ID_KATEGORII = row[1]
