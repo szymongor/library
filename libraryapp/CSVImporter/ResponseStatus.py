@@ -1,6 +1,6 @@
 
 
-class ImportStatusCollection():
+class ResponseStatusCollection():
     statusArray = []
 
     def addImportStatus(self,importStatus):
@@ -9,7 +9,7 @@ class ImportStatusCollection():
     def getImportStatus(self):
         return self.statusArray
 
-class ImportStatus():
+class ResponseStatus():
     status = {}
 
     def setAction(self,action):

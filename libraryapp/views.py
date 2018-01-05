@@ -27,8 +27,10 @@ class KsiazkaList(APIView):
 
     def put(self, request):
         ksiazka_DAO = KsiazkaDAO()
-        ksiazka_DAO.addKsiazka(request.data['ksiazka'])
-        return Response(status=204)
+        status_response = ksiazka_DAO.addKsiazka(request.data['ksiazka'])
+        response = Response(status_response.getStatus())
+        response.status_code=200
+        return response
 
     def delete(self, request):
         ksiazka_DAO = KsiazkaDAO()
