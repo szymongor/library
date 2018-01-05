@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Ksiazka
 from .models import Kategorie
+from django.utils.translation import ugettext_lazy
 
 
 def deleteKatrgoria(self, modeladmin, request, queryset):
@@ -16,3 +17,6 @@ class KsiazkaAdmin(admin.ModelAdmin):
 
 admin.site.register(Ksiazka, KsiazkaAdmin)
 admin.site.register(Kategorie)
+admin.site.site_title = 'Administracja biblioteką'
+admin.site.site_header = 'Administracja biblioteką'
+admin.site.index_title = 'Administracja stoną'

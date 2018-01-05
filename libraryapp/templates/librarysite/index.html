@@ -1,0 +1,139 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Biblioteka MS</title>
+      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse topnavbarspace">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">BibliotekaMs</a>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
+          <div class="row">
+            <div class="col-xs-6 ">
+                  <h4><a class="nav-link" href="#">Zaloguj</a></h4>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <section id="main">
+      <div class="container">
+        <div class="row ">
+          <div class="devPostBorder col-md-12 ksiazkaForm">
+            <div class="card">
+              <h3>
+                <p class="text-center">
+                  Biblioteka program
+                <p>
+              </h3>
+              <div class="container">
+                <div class="row ">
+
+
+                    <div  class="devPostBorder col-md-6">
+                      <div class="form-group text-center">
+                        <label class="">numer inwentarzowy/sygnatura</label>
+                        <input type="text" class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="devPostBorder col-md-6">
+                      <div class="form-group text-center">
+                        <label>sygnatura biblioteki głównej</label>
+                        <input type="text" class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="devPostBorder col-md-6">
+                      <div class="form-group text-center">
+                        <label>pierwsze oznaczenie odpowiedzialnosci</label>
+                        <textarea class="form-control" rows="5" id="comment"></textarea>
+                      </div>
+                    </div>
+
+                    <div class="devPostBorder col-md-6">
+                      <div class="form-group text-center">
+                        <label class="">tytuł</label>
+                        <textarea class="form-control" rows="5" id="comment"></textarea>
+                      </div>
+                    </div>
+
+                    <div class="devPostBorder col-md-3">
+                      <div class="form-group text-center">
+                        <label>tom</label>
+                          <input type="text" class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="devPostBorder col-md-3">
+                      <div class="form-group text-center">
+                        <label>rok wydania</label>
+                          <input type="text" class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="devPostBorder col-md-6">
+                      <div class="form-group text-center">
+                        <label>ISBN/ISSN</label>
+                          <input type="text" class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="devPostBorder col-md-6">
+                      <div class="form-group text-center">
+                        <label>typ pozycji</label>
+                          <input type="text" class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="devPostBorder col-md-6">
+                      <div class="form-group text-center">
+                        <label>dostęponość</label>
+                          <input type="text" class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="devPostBorder col-md-6">
+                      <div class="form-group text-center">
+                        <label>kategoria głowna</label>
+                          <input type="text" class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="devPostBorder col-md-6">
+                      <div class="form-group text-center">
+                        <label>kategoria</label>
+                          <input type="text" class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="devPostBorder offset-md-6 col-md-6">
+                      <button type="button" class="btn btn-outline-primary">Resetuj wyszukiwanie</button>
+                      <button class="btn btn-primary" href="#" role="button">Wyszukaj</button>
+
+                    </div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
