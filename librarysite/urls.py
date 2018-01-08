@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from libraryapp import views
+from rest_framework_swagger.views import get_swagger_view
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -25,6 +26,8 @@ from rest_framework_simplejwt.views import (
 
 from libraryapp.views import CsvImport
 
+schema_view = get_swagger_view(title='Pastebin API')
+
 urlpatterns = [
     path('', include('libraryapp.urls')),
     path('admin/', admin.site.urls),
@@ -32,6 +35,7 @@ urlpatterns = [
     path('upload/<filename>/', CsvImport.as_view()),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('swagger/', schema_view)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
