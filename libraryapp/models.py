@@ -37,5 +37,17 @@ class Ksiazka(models.Model):
         return str(self.syg_ms)+" "+self.tytul
 
     class Meta:
-        verbose_name = "Książki"
+        verbose_name = "Książka"
         verbose_name_plural = "Książki"
+
+class CsvImport(models.Model):
+    CSV_file = models.FileField()
+
+    def save(self, *args, **kwargs):
+        pass
+        ##super(DataFile, self).save(*args, **kwargs)
+        ##filename = self.data.url
+
+    class Meta:
+        verbose_name = "CSV"
+        verbose_name_plural = "Importuj csv"

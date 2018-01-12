@@ -1,12 +1,13 @@
 import csv
 
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 from django.db import IntegrityError
 
 from ..models import Ksiazka, Kategorie
 from .ResponseStatus import ResponseStatus, ResponseStatusCollection
 
 class CSVImporter:
-
 
     def importFromFile(self, file_object):
         import_status_collection = ResponseStatusCollection()
@@ -28,12 +29,7 @@ class CSVImporter:
                 import_status = self.rowToPrzypisanieKategorii(row).getStatus()
                 import_status_collection.addImportStatus(import_status)
 
-
-
-        #lines = file_object.readlines()
-        #for line in lines:
-        #    returnStr += self.lineToKsiazka(line)
-
+        file_object.close()
         return import_status_collection
 
     def chooseImportTypeByFirstLine(self,first_line):
@@ -59,22 +55,23 @@ class CSVImporter:
             DOSTEPNOSC = row[8]
             importStatus.setAction("Ksiazka syg_ms:" + SYG_MS)
             try:
-                ksiazka = Ksiazka.objects.create(
-                    syg_ms=SYG_MS,
-                )
-                if(SYG_BG != ''):
-                    ksiazka.syg_bg = SYG_BG
-                ksiazka.ozn_opdow = OZN_OPDOW
-                ksiazka.tytul = TYTUL
-                if(TOM != ''):
-                    ksiazka.tom = TOM
-                if(ROK != ''):
-                    ksiazka.rok = ROK
-                ksiazka.isbn_issn = ISBN_ISSN
-                ksiazka.typ = TYP
-                ksiazka.dostepnosc = DOSTEPNOSC
-                ksiazka.save()
-                importStatus.setResult("Success")
+                with transaction.atomic():
+                    ksiazka = Ksiazka.objects.create(
+                        syg_ms=SYG_MS,
+                    )
+                    if(SYG_BG != ''):
+                        ksiazka.syg_bg = SYG_BG
+                    ksiazka.ozn_opdow = OZN_OPDOW
+                    ksiazka.tytul = TYTUL
+                    if(TOM != ''):
+                        ksiazka.tom = TOM
+                    if(ROK != ''):
+                        ksiazka.rok = ROK
+                    ksiazka.isbn_issn = ISBN_ISSN
+                    ksiazka.typ = TYP
+                    ksiazka.dostepnosc = DOSTEPNOSC
+                    ksiazka.save()
+                    importStatus.setResult("Success")
             except IntegrityError:
                 importStatus.setResult("Already exits")
                 pass
@@ -88,12 +85,13 @@ class CSVImporter:
         try:
             ID_KATEGORII = row[0]
             KATEGORIA = row[1]
-            importStatus.setAction("Kategoria id:" + ID_KATEGORII)
+            importStatus.setAction("Kategoria id: " + ID_KATEGORII)
             try:
-                kategoria = Kategorie.objects.create(id_kategorii=ID_KATEGORII)
-                kategoria.kategoria = KATEGORIA
-                kategoria.save()
-                importStatus.setResult("Success")
+                with transaction.atomic():
+                    kategoria = Kategorie.objects.create(id_kategorii=ID_KATEGORII)
+                    kategoria.kategoria = KATEGORIA
+                    kategoria.save()
+                    importStatus.setResult("Success")
             except IntegrityError:
                 importStatus.setResult("Already exits")
                 pass
@@ -107,12 +105,15 @@ class CSVImporter:
         try:
             SYG_MS = row[0]
             ID_KATEGORII = row[1]
-            importStatus.setAction("Przypisanie syg_ms: "+SYG_MS+" id kat:"+ID_KATEGORII)
+            importStatus.setAction("Przypisanie syg_ms: "+SYG_MS+"+ id kat: "+ID_KATEGORII)
             try:
-                ksiazka = Ksiazka.objects.get(syg_ms=SYG_MS)
-                kategoria = Kategorie.objects.get(id_kategorii=ID_KATEGORII)
-                ksiazka.kategoria.add(kategoria)
-                importStatus.setResult("Success")
+                with transaction.atomic():
+                    ksiazka = Ksiazka.objects.get(syg_ms=SYG_MS)
+                    kategoria = Kategorie.objects.get(id_kategorii=ID_KATEGORII)
+                    ksiazka.kategoria.add(kategoria)
+                    importStatus.setResult("Success")
+            except ObjectDoesNotExist:
+                importStatus.setResult("No such ksiazka or kategoria")
             except:
                 importStatus.setResult("Already exits")
         except:

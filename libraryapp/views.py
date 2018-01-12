@@ -12,8 +12,6 @@ from .CSVImporter.CSVImporter import CSVImporter
 from io import TextIOWrapper
 from .DAO.KsiazkaDAO import KsiazkaDAO
 
-
-
 class KsiazkaList(APIView):
 
     def get(self, request):
