@@ -32,10 +32,10 @@ urlpatterns = [
     path('', include('libraryapp.urls')),
     path('admin/', admin.site.urls),
     path('ksiazka/', views.KsiazkaList.as_view()),
-    path('upload/<filename>/', CsvImport.as_view()),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('swagger/', schema_view)
+    #path('upload/<filename>/', CsvImport.as_view()),
+    #path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    #path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    #path('swagger/', schema_view)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

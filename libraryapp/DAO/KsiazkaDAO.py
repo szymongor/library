@@ -1,4 +1,5 @@
 from django.db import IntegrityError
+from django.db.models import QuerySet
 
 from libraryapp.CSVImporter.ResponseStatus import ResponseStatusCollection, ResponseStatus
 from ..models import Ksiazka, Kategorie
@@ -8,7 +9,13 @@ class KsiazkaDAO():
 
     def getKsiazka(self,query):
         filters = query['filters']
-        ksiazka_set = Ksiazka.objects.filter(**filters)
+        kategorie = query['kategorie']
+        ksiazki_by_kategoria = Ksiazka.objects.all()
+        if len(kategorie) != 0:
+            ksiazki_by_kategoria = Ksiazka.objects.none()
+            for kategoria in kategorie:
+                ksiazki_by_kategoria = ksiazki_by_kategoria |Ksiazka.objects.filter(kategoria__id_kategorii=kategoria)
+        ksiazka_set = ksiazki_by_kategoria.filter(**filters)
         pagination = query['pagination']
         ksiazka_set = ksiazka_set[pagination['offset']:pagination['offset']+pagination['limit']]
         return ksiazka_set

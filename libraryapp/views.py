@@ -14,10 +14,10 @@ from .DAO.KsiazkaDAO import KsiazkaDAO
 
 class KsiazkaList(APIView):
 
-    def get(self, request):
-        ksiazka = Ksiazka.objects.all().order_by('-syg_ms')[:100:1]
-        serializer = KsiazkaSerializer(ksiazka, many=True)
-        return Response(serializer.data)
+    #def get(self, request):
+    #    ksiazka = Ksiazka.objects.all().order_by('-syg_ms')[:100:1]
+    #    serializer = KsiazkaSerializer(ksiazka, many=True)
+    #    return Response(serializer.data)
 
     def post(self, request):
         ksiazka_DAO = KsiazkaDAO()
@@ -25,22 +25,22 @@ class KsiazkaList(APIView):
         serializer = KsiazkaSerializer(ksiazka, many=True)
         return Response(serializer.data)
 
-    def put(self, request):
-        ksiazka_DAO = KsiazkaDAO()
-        status_response = ksiazka_DAO.addKsiazka(request.data['ksiazka'])
-        response = Response(status_response.getStatus())
-        response.status_code=200
-        return response
+    #def put(self, request):
+    #    ksiazka_DAO = KsiazkaDAO()
+    #    status_response = ksiazka_DAO.addKsiazka(request.data['ksiazka'])
+    #    response = Response(status_response.getStatus())
+    #    response.status_code=200
+    #    return response
 
-    def delete(self, request):
-        ksiazka_DAO = KsiazkaDAO()
-        ksiazka_DAO.deleteKsiazka(request.data['ksiazkaId'])
-        return Response(status=204)
+    #def delete(self, request):
+    #    ksiazka_DAO = KsiazkaDAO()
+    #    ksiazka_DAO.deleteKsiazka(request.data['ksiazkaId'])
+    #    return Response(status=204)
 
-    def patch(self, request):
-        ksiazka_DAO = KsiazkaDAO()
-        ksiazka_DAO.updateKsiazka(request.data['updateKsiazka'])
-        return Response(status=204)
+    #def patch(self, request):
+    #    ksiazka_DAO = KsiazkaDAO()
+    #    ksiazka_DAO.updateKsiazka(request.data['updateKsiazka'])
+    #    return Response(status=204)
 
 
 class CsvImport(APIView):
