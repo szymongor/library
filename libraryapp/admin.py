@@ -31,7 +31,7 @@ class CSVAdmin(admin.ModelAdmin):
 
 
 class KsiazkaAdmin(admin.ModelAdmin):
-    list_display = ['syg_ms', 'tytul',]
+    list_display = ('syg_ms','syg_bg','ozn_opdow', 'tytul','tom','rok','isbn_issn','typ','dostepnosc')
     search_fields = ('syg_ms', 'tytul','=kategoria__id_kategorii',)
     filter_horizontal = ('kategoria',)
 
