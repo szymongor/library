@@ -26,12 +26,12 @@ class Ksiazka(models.Model):
     syg_bg = models.CharField(max_length=20,null=True,blank=True)
     ozn_opdow = models.TextField(null=False)
     tytul = models.TextField(null=False)
-    tom = models.TextField(null=True)
-    rok = models.IntegerField(null=True)
-    isbn_issn = models.CharField(max_length=100,null=True)
-    typ = models.CharField(max_length=10, choices=TYP_CHOICES)
-    dostepnosc = models.CharField(max_length=10, choices=DOSTEPNOSC_CHOICES)
-    kategoria = models.ManyToManyField(Kategorie,blank=True)
+    tom = models.TextField(null=True,blank=True)
+    rok = models.IntegerField(null=False)
+    isbn_issn = models.CharField(max_length=100,null=True,blank=True)
+    typ = models.CharField(max_length=10, choices=TYP_CHOICES, null=False)
+    dostepnosc = models.CharField(max_length=10, choices=DOSTEPNOSC_CHOICES, null=False)
+    kategoria = models.ManyToManyField(Kategorie,null=False)
 
     def __str__(self):
         return str(self.syg_ms)+" "+self.tytul
