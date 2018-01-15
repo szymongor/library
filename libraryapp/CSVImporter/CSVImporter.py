@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db import IntegrityError
 
-from ..models import Ksiazka, Kategorie
+from ..models import Ksiazka, Kategoria
 from .ResponseStatus import ResponseStatus, ResponseStatusCollection
 
 class CSVImporter:
@@ -58,18 +58,16 @@ class CSVImporter:
                 with transaction.atomic():
                     ksiazka = Ksiazka.objects.create(
                         syg_ms=SYG_MS,
+                        ozn_opdow=OZN_OPDOW,
+                        tytul=TYTUL,
+                        rok=ROK,
+                        typ=TYP,
+                        dostepnosc=DOSTEPNOSC,
                     )
                     if(SYG_BG != ''):
                         ksiazka.syg_bg = SYG_BG
-                    ksiazka.ozn_opdow = OZN_OPDOW
-                    ksiazka.tytul = TYTUL
                     if(TOM != ''):
                         ksiazka.tom = TOM
-                    if(ROK != ''):
-                        ksiazka.rok = ROK
-                    ksiazka.isbn_issn = ISBN_ISSN
-                    ksiazka.typ = TYP
-                    ksiazka.dostepnosc = DOSTEPNOSC
                     ksiazka.save()
                     importStatus.setResult("Success")
             except IntegrityError:
@@ -88,7 +86,7 @@ class CSVImporter:
             importStatus.setAction("Kategoria id: " + ID_KATEGORII)
             try:
                 with transaction.atomic():
-                    kategoria = Kategorie.objects.create(id_kategorii=ID_KATEGORII)
+                    kategoria = Kategoria.objects.create(id_kategorii=ID_KATEGORII)
                     kategoria.kategoria = KATEGORIA
                     kategoria.save()
                     importStatus.setResult("Success")
@@ -109,7 +107,7 @@ class CSVImporter:
             try:
                 with transaction.atomic():
                     ksiazka = Ksiazka.objects.get(syg_ms=SYG_MS)
-                    kategoria = Kategorie.objects.get(id_kategorii=ID_KATEGORII)
+                    kategoria = Kategoria.objects.get(id_kategorii=ID_KATEGORII)
                     ksiazka.kategoria.add(kategoria)
                     importStatus.setResult("Success")
             except ObjectDoesNotExist:

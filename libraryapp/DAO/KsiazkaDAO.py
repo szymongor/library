@@ -2,7 +2,7 @@ from django.db import IntegrityError
 from django.db.models import QuerySet
 
 from libraryapp.CSVImporter.ResponseStatus import ResponseStatusCollection, ResponseStatus
-from ..models import Ksiazka, Kategorie
+from ..models import Ksiazka, Kategoria
 
 class KsiazkaDAO():
     #+query object
@@ -40,7 +40,7 @@ class KsiazkaDAO():
                 ksiazka.isbn_issn = ksiazkaJSON['isbn_issn']
 
             for kategoriaId in ksiazkaJSON['kategorie']:
-                kategoria = Kategorie.objects.get(id_kategorii=kategoriaId)
+                kategoria = Kategoria.objects.get(id_kategorii=kategoriaId)
                 ksiazka.kategoria.add(kategoria)
 
             ksiazka.save()
@@ -84,12 +84,12 @@ class KsiazkaDAO():
 
             if 'kategorie_add' in ksiazkaJSON:
                 for kategoriaId in ksiazkaJSON['kategorie_add']:
-                    kategoria = Kategorie.objects.get(kategoria_id=kategoriaId)
+                    kategoria = Kategoria.objects.get(kategoria_id=kategoriaId)
                     ksiazka.kategoria.add(kategoria)
 
             if 'kategorie_remove' in ksiazkaJSON:
                 for kategoriaId in ksiazkaJSON['kategorie_remove']:
-                    kategoria = Kategorie.objects.get(kategoria_id=kategoriaId)
+                    kategoria = Kategoria.objects.get(kategoria_id=kategoriaId)
                     ksiazka.kategoria.remove(kategoria)
 
             ksiazka.save()

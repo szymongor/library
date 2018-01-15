@@ -4,8 +4,10 @@ from rest_framework.parsers import FileUploadParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+
+from libraryapp.DAO.KategoriaDAO import KategoriaDAO
 from .models import Ksiazka
-from .serializers import KsiazkaSerializer
+from .serializers import KsiazkaSerializer, KategorieSerializer, KategoriaTreeSerializer
 from rest_framework_simplejwt import authentication
 from rest_framework import permissions
 from .CSVImporter.CSVImporter import CSVImporter
@@ -42,6 +44,12 @@ class KsiazkaList(APIView):
     #    ksiazka_DAO.updateKsiazka(request.data['updateKsiazka'])
     #    return Response(status=204)
 
+class KategoriaList(APIView):
+
+     def get(self, request):
+        kategorie = KategoriaDAO().getKategoria()
+        serializer = KategoriaTreeSerializer(kategorie, many=True)
+        return Response(serializer.data)
 
 class CsvImport(APIView):
     #permission_classes = (permissions.IsAuthenticated,)

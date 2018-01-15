@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Ksiazka
-from .models import Kategorie
+from .models import Kategoria
 from django.utils.translation import ugettext_lazy
 from django.contrib import admin
 from .models import CsvImport
@@ -31,7 +31,8 @@ class CSVAdmin(admin.ModelAdmin):
 
 
 class KsiazkaAdmin(admin.ModelAdmin):
-    list_display = ('syg_ms','syg_bg','ozn_opdow', 'tytul','tom','rok','isbn_issn','typ','dostepnosc')
+    list_display = ('syg_ms','syg_bg','ozn_opdow', 'tytul',
+                    'tom','rok','isbn_issn','typ','dostepnosc',)
     search_fields = ('syg_ms', 'tytul','=kategoria__id_kategorii',)
     filter_horizontal = ('kategoria',)
 
@@ -41,7 +42,7 @@ class KategoriaAdmin(admin.ModelAdmin):
 
 admin.site.register(Ksiazka, KsiazkaAdmin)
 admin.site.register(CsvImport,CSVAdmin)
-admin.site.register(Kategorie, KategoriaAdmin)
+admin.site.register(Kategoria, KategoriaAdmin)
 admin.site.site_title = 'Administracja biblioteką'
 admin.site.site_header = 'Administracja biblioteką'
 admin.site.index_title = 'Administracja stoną'

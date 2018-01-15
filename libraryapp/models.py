@@ -1,6 +1,6 @@
 from django.db import models
 
-class Kategorie(models.Model):
+class Kategoria(models.Model):
     id_kategorii = models.CharField(max_length=200, unique=True)
     kategoria = models.TextField()
 
@@ -23,15 +23,15 @@ class Ksiazka(models.Model):
         ('czytelnia','czytelnia'),
     )
     syg_ms = models.IntegerField(unique=True,null=False)
-    syg_bg = models.CharField(max_length=20,null=True,blank=True)
+    syg_bg = models.CharField(max_length=20,null=True,blank=True, default="")
     ozn_opdow = models.TextField(null=False)
     tytul = models.TextField(null=False)
-    tom = models.TextField(null=True,blank=True)
+    tom = models.TextField(null=True,blank=True, default="")
     rok = models.IntegerField(null=False)
-    isbn_issn = models.CharField(max_length=100,null=True,blank=True)
+    isbn_issn = models.CharField(max_length=100,null=True,blank=True, default="")
     typ = models.CharField(max_length=10, choices=TYP_CHOICES, null=False)
     dostepnosc = models.CharField(max_length=10, choices=DOSTEPNOSC_CHOICES, null=False)
-    kategoria = models.ManyToManyField(Kategorie,null=False)
+    kategoria = models.ManyToManyField(Kategoria, null=False)
 
     def __str__(self):
         return str(self.syg_ms)+" "+self.tytul
