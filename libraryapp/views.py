@@ -1,6 +1,8 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from rest_framework.parsers import FileUploadParser
+from rest_framework.utils import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -50,6 +52,24 @@ class KategoriaList(APIView):
         kategorie = KategoriaDAO().getKategoria()
         serializer = KategoriaTreeSerializer(kategorie, many=True)
         return Response(serializer.data)
+
+class DictionaryView(APIView):
+
+    def get(self, request):
+        dictionary = {}
+        typy = []
+        dostepnosci =[]
+
+        for typ in Ksiazka.TYP_CHOICES:
+            typy.append(typ[0])
+
+        for dostepnosc in Ksiazka.DOSTEPNOSC_CHOICES:
+            dostepnosci.append(dostepnosc[0])
+
+        dictionary['typ'] = typy
+        dictionary['dostepnosc'] = dostepnosci
+        return Response(dictionary)
+
 
 class CsvImport(APIView):
     #permission_classes = (permissions.IsAuthenticated,)
