@@ -16,6 +16,10 @@ class KsiazkaDAO():
             for kategoria in kategorie:
                 ksiazki_by_kategoria = ksiazki_by_kategoria |Ksiazka.objects.filter(kategoria__id_kategorii=kategoria)
         ksiazka_set = ksiazki_by_kategoria.filter(**filters)
+        [upper_case_filters, lower_case_fitlers] = self.upperLowerCaseFilters(filters)
+        ksiazka_set = ksiazka_set | ksiazki_by_kategoria.filter(**upper_case_filters)
+        ksiazka_set = ksiazka_set | ksiazki_by_kategoria.filter(**lower_case_fitlers)
+
         pagination = query['pagination']
         ksiazka_set = ksiazka_set[pagination['offset']:pagination['offset']+pagination['limit']]
         return ksiazka_set
@@ -96,3 +100,10 @@ class KsiazkaDAO():
         except:
             pass
 
+    def upperLowerCaseFilters(self,filters):
+        new_filters_upper = {}
+        new_filters_lower = {}
+        for field in filters:
+            new_filters_upper[field] = filters[field].upper()
+            new_filters_lower[field] = filters[field].lower()
+        return [new_filters_lower,new_filters_upper]
