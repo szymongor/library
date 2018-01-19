@@ -29,6 +29,10 @@ class CSVAdmin(admin.ModelAdmin):
                                  "Importing: "+import_status['action']+". "+
                                 "Status: "+import_status['result']+".")
 
+    def has_change_permission(cls, request, obj=None):
+        ''' remove add and save and add another button '''
+        return False
+
 
 class KsiazkaAdmin(admin.ModelAdmin):
     list_display = ('syg_ms','syg_bg','ozn_opdow', 'tytul',
