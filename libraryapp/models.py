@@ -1,8 +1,8 @@
 from django.db import models
 
 class Category(models.Model):
-    category_id = models.CharField(max_length=200, unique=True)
-    category_name = models.TextField()
+    category_id = models.CharField(max_length=200, unique=True,verbose_name=u'Id kategorii')
+    category_name = models.TextField(verbose_name=u'Nazwa kategorii')
 
     def __str__(self):
         return self.category_id + " " + self.category_name

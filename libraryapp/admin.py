@@ -1,7 +1,8 @@
 from django.contrib import admin
+from django.contrib.contenttypes.models import ContentType
+
 from .models import Book
 from .models import Category
-from django.utils.translation import ugettext_lazy
 from django.contrib import admin
 from .models import CsvImport
 from django.contrib import messages
