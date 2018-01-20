@@ -3,30 +3,30 @@
 class ResponseStatusCollection():
 
     def __init__(self):
-        self.statusArray = []
+        self.status_array = []
 
-    def addImportStatus(self,importStatus):
-        self.statusArray.append(importStatus.copy())
+    def add_import_status(self, import_status):
+        self.status_array.append(import_status.copy())
 
-    def getImportStatus(self):
-        return self.statusArray
+    def get_import_status(self):
+        return self.status_array
 
 class ResponseStatus():
     status = {}
 
-    def setAction(self,action):
+    def set_action(self, action):
         self.status['action'] = action
 
-    def setResult(self,result):
+    def set_result(self, result):
         self.status['result'] = result
 
-    def getAction(self):
+    def get_action(self):
         return self.status['action']
 
-    def getResult(self):
+    def get_result(self):
         return self.status['result']
 
-    def getStatus(self):
+    def get_status(self):
         return self.status
 
 

@@ -4,118 +4,131 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db import IntegrityError
 
-from ..models import Ksiazka, Kategoria
+from ..models import Book, Category
 from .ResponseStatus import ResponseStatus, ResponseStatusCollection
 
+BOOKS = 'BOOKS'
+CATEGORIES = 'CATEGORIES'
+CATEGORIES_ASSIGNMENT = 'CATEGORIES_ASSIGNMENT'
+
 class CSVImporter:
+
 
     def importFromFile(self, file_object):
         import_status_collection = ResponseStatusCollection()
         first_line = file_object.readline()
 
-        csvreader = csv.reader(file_object, delimiter=',', quotechar='"')
+        csv_reader = csv.reader(file_object, delimiter=',', quotechar='"')
 
-        import_type = self.chooseImportTypeByFirstLine(first_line)
-        if import_type == 'ksiazki':
-            for row in csvreader:
-                import_status = self.rowToKsiazka(row).getStatus()
-                import_status_collection.addImportStatus(import_status)
-        elif import_type == 'kategorie':
-            for row in csvreader:
-                import_status = self.rowToKategoria(row).getStatus()
-                import_status_collection.addImportStatus(import_status)
-        elif import_type == 'przyppisaniekategorii':
-            for row in csvreader:
-                import_status = self.rowToPrzypisanieKategorii(row).getStatus()
-                import_status_collection.addImportStatus(import_status)
+        import_type = self.choose_import_type_by_first_line(first_line)
+        if import_type == BOOKS:
+            for row in csv_reader:
+                import_status = self.row_to_book(row).get_status()
+                import_status_collection.add_import_status(import_status)
+        elif import_type == CATEGORIES:
+            for row in csv_reader:
+                import_status = self.row_to_category(row).get_status()
+                import_status_collection.add_import_status(import_status)
+        elif import_type == CATEGORIES_ASSIGNMENT:
+            for row in csv_reader:
+                import_status = self.row_to_category_assignment(row).get_status()
+                import_status_collection.add_import_status(import_status)
 
         file_object.close()
         return import_status_collection
 
-    def chooseImportTypeByFirstLine(self,first_line):
+    def choose_import_type_by_first_line(self, first_line):
         if 'SYG_MS' in first_line and 'TYTUL' in first_line:
-            return 'ksiazki'
+            return BOOKS
         elif 'KATEGORIA' in first_line:
-            return 'kategorie'
+            return CATEGORIES
         elif 'SYG_MS' in first_line and 'ID_KATEGORII' in first_line:
-            return 'przyppisaniekategorii'
+            return CATEGORIES_ASSIGNMENT
 
 
-    def rowToKsiazka(self,row):
-        importStatus = ResponseStatus()
+    def row_to_book(self, row):
+        import_status = ResponseStatus()
         try:
             SYG_MS = row[0]
             SYG_BG = row[1]
             OZN_OPDOW = row[2]
-            TYTUL = row[3]
-            TOM = row[4]
-            ROK = row[5]
+            TITLE = row[3]
+            VOLUME = row[4]
+            YEAR = row[5]
             ISBN_ISSN = row[6]
-            TYP = row[7]
-            DOSTEPNOSC = row[8]
-            importStatus.setAction("Ksiazka syg_ms:" + SYG_MS)
+            TYPE = row[7]
+            AVAILABILITY = row[8]
+            import_status.set_action("Książka syg_ms:" + SYG_MS)
             try:
                 with transaction.atomic():
-                    ksiazka = Ksiazka.objects.create(
+                    book = Book.objects.create(
                         syg_ms=SYG_MS,
                         ozn_opdow=OZN_OPDOW,
-                        tytul=TYTUL,
-                        rok=ROK,
-                        typ=TYP,
-                        dostepnosc=DOSTEPNOSC,
+                        title=TITLE,
+                        year=YEAR,
+                        type=TYPE,
+                        availability=AVAILABILITY,
                     )
                     if(SYG_BG != ''):
-                        ksiazka.syg_bg = SYG_BG
-                    if(TOM != ''):
-                        ksiazka.tom = TOM
-                    ksiazka.save()
-                    importStatus.setResult("Success")
+                        book.syg_bg = SYG_BG
+                    if(VOLUME != ''):
+                        book.volume = VOLUME
+                    if (ISBN_ISSN != ''):
+                        book.isbn_issn = ISBN_ISSN
+
+                    book.save()
+                    import_status.set_result("Sukces")
             except IntegrityError:
-                importStatus.setResult("Already exits")
-                pass
+                import_status.set_result("Już istnieje")
+            except Exception as e:
+                import_status.set_result("Nieznany błąd: " + str(e))
         except IndexError:
             pass
 
-        return importStatus
+        return import_status
 
-    def rowToKategoria(self,row):
-        importStatus = ResponseStatus()
+    def row_to_category(self, row):
+        import_status = ResponseStatus()
         try:
-            ID_KATEGORII = row[0]
-            KATEGORIA = row[1]
-            importStatus.setAction("Kategoria id: " + ID_KATEGORII)
+            CATEGORY_ID = row[0]
+            CATEGORY_NAME = row[1]
+            import_status.set_action("Kategoria id: " + CATEGORY_ID)
             try:
                 with transaction.atomic():
-                    kategoria = Kategoria.objects.create(id_kategorii=ID_KATEGORII)
-                    kategoria.kategoria = KATEGORIA
-                    kategoria.save()
-                    importStatus.setResult("Success")
+                    category = Category.objects.create(category_id=CATEGORY_ID)
+                    category.category_name = CATEGORY_NAME
+                    category.save()
+                    import_status.set_result("Sukces")
             except IntegrityError:
-                importStatus.setResult("Already exits")
-                pass
+                import_status.set_result("Już istnieje")
+            except Exception as e:
+                import_status.set_result("Nieznany błąd: "+ str(e))
+
         except IndexError:
             pass
-        return importStatus
+        return import_status
 
 
-    def rowToPrzypisanieKategorii(self,row):
-        importStatus = ResponseStatus()
+    def row_to_category_assignment(self, row):
+        import_status = ResponseStatus()
         try:
             SYG_MS = row[0]
-            ID_KATEGORII = row[1]
-            importStatus.setAction("Przypisanie syg_ms: "+SYG_MS+"+ id kat: "+ID_KATEGORII)
+            CATEGORY_ID = row[1]
+            import_status.set_action("Przypisanie syg_ms: " + SYG_MS + "+ id kat: " + CATEGORY_ID)
             try:
                 with transaction.atomic():
-                    ksiazka = Ksiazka.objects.get(syg_ms=SYG_MS)
-                    kategoria = Kategoria.objects.get(id_kategorii=ID_KATEGORII)
-                    ksiazka.kategoria.add(kategoria)
-                    importStatus.setResult("Success")
+                    book = Book.objects.get(syg_ms=SYG_MS)
+                    category = Category.objects.get(category_id=CATEGORY_ID)
+                    book.categories.add(category)
+                    import_status.set_result("Sukces")
             except ObjectDoesNotExist:
-                importStatus.setResult("No such ksiazka or kategoria")
-            except:
-                importStatus.setResult("Already exits")
+                import_status.set_result("Nie ma takiej książki lub kategorii")
+            except IntegrityError:
+                import_status.set_result("Już istnieje to przypisanie")
+            except Exception as e:
+                import_status.set_result("Nieznany błąd: "+ str(e))
         except:
             pass
 
-        return importStatus
+        return import_status
 

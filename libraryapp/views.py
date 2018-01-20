@@ -7,14 +7,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from libraryapp.DAO.KategoriaDAO import KategoriaDAO
-from .models import Ksiazka
-from .serializers import KsiazkaSerializer, KategorieSerializer, KategoriaTreeSerializer
+from libraryapp.DAO.CategoryDAO import CategoryDAO
+from .models import Book
+from .serializers import BookSerializer, CategorySerializer, CategoryTreeSerializer
 from rest_framework_simplejwt import authentication
 from rest_framework import permissions
 from .CSVImporter.CSVImporter import CSVImporter
 from io import TextIOWrapper
-from .DAO.KsiazkaDAO import KsiazkaDAO
+from .DAO.BookDAO import BookDAO
 
 class KsiazkaList(APIView):
 
@@ -24,9 +24,9 @@ class KsiazkaList(APIView):
     #    return Response(serializer.data)
 
     def post(self, request):
-        ksiazka_DAO = KsiazkaDAO()
-        ksiazka = ksiazka_DAO.getKsiazka(request.data['query'])
-        serializer = KsiazkaSerializer(ksiazka, many=True)
+        ksiazka_DAO = BookDAO()
+        ksiazka = ksiazka_DAO.get_book(request.data['query'])
+        serializer = BookSerializer(ksiazka, many=True)
         return Response(serializer.data)
 
     #def put(self, request):
@@ -49,25 +49,25 @@ class KsiazkaList(APIView):
 class KategoriaList(APIView):
 
      def get(self, request):
-        kategorie = KategoriaDAO().getKategoria()
-        serializer = KategoriaTreeSerializer(kategorie, many=True)
+        kategorie = CategoryDAO().get_category()
+        serializer = CategoryTreeSerializer(kategorie, many=True)
         return Response(serializer.data)
 
 class DictionaryView(APIView):
 
     def get(self, request):
         dictionary = {}
-        typy = []
-        dostepnosci =[]
+        types = []
+        availability_types =[]
 
-        for typ in Ksiazka.TYP_CHOICES:
-            typy.append(typ[0])
+        for type in Book.TYPE_CHOICES:
+            types.append(type[0])
 
-        for dostepnosc in Ksiazka.DOSTEPNOSC_CHOICES:
-            dostepnosci.append(dostepnosc[0])
+        for availability in Book.AVAILABILITY_CHOICES:
+            availability_types.append(availability[0])
 
-        dictionary['typ'] = typy
-        dictionary['dostepnosc'] = dostepnosci
+        dictionary['types'] = types
+        dictionary['availability_types'] = availability_types
         return Response(dictionary)
 
 
@@ -79,8 +79,8 @@ class CsvImport(APIView):
 
     def put(self, request, filename, format=None):
         file_obj = TextIOWrapper(request.FILES['file'].file, encoding=request.encoding)
-        csvImporter = CSVImporter()
-        import_status = csvImporter.importFromFile(file_obj).getImportStatus()
+        csv_importer = CSVImporter()
+        import_status = csv_importer.importFromFile(file_obj).get_import_status()
 
         data = {'Import status': import_status}
         response = Response(data,status=204)

@@ -1,31 +1,30 @@
 from rest_framework import serializers
 
-from libraryapp.DAO.KategoriaTree import KategoriaTree
-from .models import Ksiazka, Kategoria
+from libraryapp.DAO.CategoriesTree import CategoriesTree
+from .models import Book, Category
 
 
-class KategorieSerializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Kategoria
+        model = Category
         #fields = '__all__'
-        fields= ('id_kategorii', 'kategoria')
+        fields= ('category_id', 'category_name')
 
-class KsiazkaSerializer(serializers.ModelSerializer):
-    #kategoria = serializers.StringRelatedField(many=True)
-    kategoria = KategorieSerializer(many=True, read_only=True)
+class BookSerializer(serializers.ModelSerializer):
+    categories = CategorySerializer(many=True, read_only=True)
 
     class Meta:
-        model = Ksiazka
+        model = Book
         #fields='__all__'
-        fields=('syg_ms','syg_bg','ozn_opdow','tytul',
-                'tom','rok','isbn_issn','typ','dostepnosc',
-                'kategoria',)
+        fields=('syg_ms','syg_bg','ozn_opdow','title',
+                'volume','year','isbn_issn','type','availability',
+                'categories',)
 
-class KategoriaTreeSerializer(serializers.Serializer    ):
-    kategoria = KategorieSerializer(many=False, read_only=True)
-    podkategorie = KategorieSerializer(many=True, read_only=True)
+class CategoryTreeSerializer(serializers.Serializer):
+    category = CategorySerializer(many=False, read_only=True)
+    subcategories = CategorySerializer(many=True, read_only=True)
 
     class Meta:
-        model = KategoriaTree
+        model = CategoriesTree
         fields = '__all__'
