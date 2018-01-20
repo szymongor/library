@@ -80,7 +80,7 @@ class CSVImporter:
                     import_status.set_result("SUCCES")
                     import_status.set_message("Sukces")
             except IntegrityError:
-                import_status.set_result("ERROR")
+                import_status.set_result("WARNING")
                 import_status.set_message("Już istnieje")
             except Exception as e:
                 import_status.set_result("ERROR")
@@ -106,7 +106,7 @@ class CSVImporter:
             except IntegrityError:
                 category = Category.objects.get(category_id=CATEGORY_ID)
                 if category.category_name == CATEGORY_NAME:
-                    import_status.set_result("ERROR")
+                    import_status.set_result("WARNING")
                     import_status.set_message("Już istnieje")
                 else:
                     category.category_name = CATEGORY_NAME
@@ -140,7 +140,7 @@ class CSVImporter:
                 import_status.set_result("ERROR")
                 import_status.set_message("Nie ma takiej książki lub kategorii")
             except IntegrityError:
-                import_status.set_result("ERROR")
+                import_status.set_result("WARNING")
                 import_status.set_message("Już istnieje to przypisanie")
             except Exception as e:
                 import_status.set_result("ERROR")

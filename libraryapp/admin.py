@@ -28,6 +28,8 @@ class CSVAdmin(admin.ModelAdmin):
             if import_status['result'] == "SUCCES":
                 style = messages.SUCCESS
             elif import_status['result'] == "INFO":
+                style = messages.INFO
+            elif import_status['result'] == "WARNING":
                 style = messages.WARNING
             else:
                 style = messages.ERROR
