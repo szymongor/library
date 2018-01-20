@@ -77,11 +77,14 @@ class CSVImporter:
                         book.isbn_issn = ISBN_ISSN
 
                     book.save()
-                    import_status.set_result("Sukces")
+                    import_status.set_result("SUCCES")
+                    import_status.set_message("Sukces")
             except IntegrityError:
-                import_status.set_result("Już istnieje")
+                import_status.set_result("ERROR")
+                import_status.set_message("Już istnieje")
             except Exception as e:
-                import_status.set_result("Nieznany błąd: " + str(e))
+                import_status.set_result("ERROR")
+                import_status.set_message("Nieznany błąd: " + str(e))
         except IndexError:
             pass
 
@@ -98,11 +101,22 @@ class CSVImporter:
                     category = Category.objects.create(category_id=CATEGORY_ID)
                     category.category_name = CATEGORY_NAME
                     category.save()
-                    import_status.set_result("Sukces")
+                    import_status.set_result("SUCCES")
+                    import_status.set_message("Sukces")
             except IntegrityError:
-                import_status.set_result("Już istnieje")
+                category = Category.objects.get(category_id=CATEGORY_ID)
+                if category.category_name == CATEGORY_NAME:
+                    import_status.set_result("ERROR")
+                    import_status.set_message("Już istnieje")
+                else:
+                    category.category_name = CATEGORY_NAME
+                    category.save()
+                    import_status.set_result("INFO")
+                    import_status.set_message("Zmieniono nazwę kategorii")
+
             except Exception as e:
-                import_status.set_result("Nieznany błąd: "+ str(e))
+                import_status.set_result("ERROR")
+                import_status.set_message("Nieznany błąd: "+ str(e))
 
         except IndexError:
             pass
@@ -120,13 +134,17 @@ class CSVImporter:
                     book = Book.objects.get(syg_ms=SYG_MS)
                     category = Category.objects.get(category_id=CATEGORY_ID)
                     book.categories.add(category)
-                    import_status.set_result("Sukces")
+                    import_status.set_result("SUCCES")
+                    import_status.set_message("Sukces")
             except ObjectDoesNotExist:
-                import_status.set_result("Nie ma takiej książki lub kategorii")
+                import_status.set_result("ERROR")
+                import_status.set_message("Nie ma takiej książki lub kategorii")
             except IntegrityError:
-                import_status.set_result("Już istnieje to przypisanie")
+                import_status.set_result("ERROR")
+                import_status.set_message("Już istnieje to przypisanie")
             except Exception as e:
-                import_status.set_result("Nieznany błąd: "+ str(e))
+                import_status.set_result("ERROR")
+                import_status.set_message("Nieznany błąd: "+ str(e))
         except:
             pass
 

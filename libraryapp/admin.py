@@ -25,15 +25,15 @@ class CSVAdmin(admin.ModelAdmin):
     def addMessage(self,request,import_result):
         imports = import_result.get_import_status()
         for import_status in imports:
-            if import_status['result'] == "Sukces":
+            if import_status['result'] == "SUCCES":
                 style = messages.SUCCESS
-            elif import_status['result'] == "Już istnieje":
+            elif import_status['result'] == "INFO":
                 style = messages.WARNING
             else:
                 style = messages.ERROR
             messages.add_message(request, style,
                                  "Importowanie: "+import_status['action']+". "+
-                                "Status: "+import_status['result']+".")
+                                "Status: "+import_status['message']+".")
 
     def has_change_permission(cls, request, obj=None):
         ''' remove add and save and add another button '''
@@ -42,7 +42,7 @@ class CSVAdmin(admin.ModelAdmin):
 
 
 class KsiazkaAdmin(admin.ModelAdmin):
-    list_display = ('syg_ms','syg_bg','ozn_opdow', 'title',
+    list_display = ('syg_ms','syg_bg','responsibility', 'title',
                     'volume','year','isbn_issn','type','availability',)
     search_fields = ('syg_ms', 'title','=categories__category_id',)
     filter_horizontal = ('categories',)

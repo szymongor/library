@@ -24,7 +24,7 @@ class Book(models.Model):
     )
     syg_ms = models.IntegerField(unique=True,null=False)
     syg_bg = models.CharField(max_length=20,null=True,blank=True, default="")
-    ozn_opdow = models.TextField(null=False,verbose_name=u'Oznaczenie odpowiedzialności')
+    responsibility = models.TextField(null=False, verbose_name=u'Oznaczenie odpowiedzialności')
     title = models.TextField(null=False,verbose_name=u'Tytuł')
     volume = models.CharField(null=True,blank=True, default="",verbose_name=u'Tom',max_length=100)
     year = models.IntegerField(null=False,verbose_name=u'Rok')
@@ -47,7 +47,7 @@ class CsvImport(models.Model):
         pass
 
     def __str__(self):
-        return 'Import : ' + self.CSV_file.name
+        return self.CSV_file.name
 
     class Meta:
         verbose_name = "CSV"
