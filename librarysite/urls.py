@@ -4,7 +4,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from libraryapp import views
 
 urlpatterns = [
-    path('', include('libraryapp.urls')),
+    path('', admin.site.urls),
     path('admin/', admin.site.urls),
     path('books', views.KsiazkaList.as_view()),
     path('categories', views.KategoriaList.as_view()),

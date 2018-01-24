@@ -62,7 +62,7 @@ class CSVImporter:
             try:
                 with transaction.atomic():
                     book = Book.objects.create(
-                        syg_ms=SYG_MS,
+                        signature_ms=SYG_MS,
                         ozn_opdow=OZN_OPDOW,
                         title=TITLE,
                         year=YEAR,
@@ -70,7 +70,7 @@ class CSVImporter:
                         availability=AVAILABILITY,
                     )
                     if(SYG_BG != ''):
-                        book.syg_bg = SYG_BG
+                        book.signature_bg = SYG_BG
                     if(VOLUME != ''):
                         book.volume = VOLUME
                     if (ISBN_ISSN != ''):
@@ -131,7 +131,7 @@ class CSVImporter:
             import_status.set_action("Przypisanie syg_ms: " + SYG_MS + "+ id kat: " + CATEGORY_ID)
             try:
                 with transaction.atomic():
-                    book = Book.objects.get(syg_ms=SYG_MS)
+                    book = Book.objects.get(signature_ms=SYG_MS)
                     category = Category.objects.get(category_id=CATEGORY_ID)
                     book.categories.add(category)
                     import_status.set_result("SUCCES")

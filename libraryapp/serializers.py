@@ -17,12 +17,12 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         #fields='__all__'
-        fields=('syg_ms','syg_bg','responsibility','title',
+        fields=('signature_ms','signature_bg','responsibility','title',
                 'volume','year','isbn_issn','type','availability',
                 'categories',)
 
 class CategoryTreeSerializer(serializers.Serializer):
-    category = CategorySerializer(many=False, read_only=True)
+    main_category = CategorySerializer(many=False, read_only=True)
     subcategories = CategorySerializer(many=True, read_only=True)
 
     class Meta:

@@ -10,10 +10,6 @@ from io import TextIOWrapper
 from .CSVImporter.CSVImporter import CSVImporter
 
 
-class LogEntryAdmin(object):
-    pass
-
-
 class CSVAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         file = request.FILES['CSV_file']
@@ -44,7 +40,7 @@ class CSVAdmin(admin.ModelAdmin):
 
 
 class KsiazkaAdmin(admin.ModelAdmin):
-    list_display = ('syg_ms','syg_bg','responsibility', 'title',
+    list_display = ('signature_ms','signature_bg','responsibility', 'title',
                     'volume','year','isbn_issn','type','availability',)
     search_fields = ('syg_ms', 'title','=categories__category_id',)
     filter_horizontal = ('categories',)
@@ -54,7 +50,7 @@ class KategoriaAdmin(admin.ModelAdmin):
     search_fields = ('category_id',)
 
 admin.site.register(Book, KsiazkaAdmin)
-admin.site.register(CsvImport,CSVAdmin)
+admin.site.register(CsvImport, CSVAdmin)
 admin.site.register(Category, KategoriaAdmin)
 admin.site.site_title = 'Administracja biblioteką'
 admin.site.site_header = 'Administracja biblioteką'

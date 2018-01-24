@@ -1,8 +1,8 @@
 from django.db import models
 
 class Category(models.Model):
-    category_id = models.CharField(max_length=200, unique=True,verbose_name=u'Id kategorii')
-    category_name = models.TextField(verbose_name=u'Nazwa kategorii')
+    category_id = models.CharField(max_length=200, unique=True,verbose_name='Id kategorii')
+    category_name = models.TextField(verbose_name='Nazwa kategorii')
 
     def __str__(self):
         return self.category_id + " " + self.category_name
@@ -22,26 +22,26 @@ class Book(models.Model):
         ('wypożyczona','wypożyczona'),
         ('czytelnia','czytelnia'),
     )
-    syg_ms = models.IntegerField(unique=True,null=False)
-    syg_bg = models.CharField(max_length=20,null=True,blank=True, default="")
-    responsibility = models.TextField(null=False, verbose_name=u'Oznaczenie odpowiedzialności')
-    title = models.TextField(null=False,verbose_name=u'Tytuł')
-    volume = models.CharField(null=True,blank=True, default="",verbose_name=u'Tom',max_length=100)
-    year = models.IntegerField(null=False,verbose_name=u'Rok')
-    isbn_issn = models.CharField(max_length=100,null=True,blank=True, default="",verbose_name=u'ISBN ISSN')
-    type = models.CharField(max_length=10, choices=TYPE_CHOICES, null=False,verbose_name=u'Typ')
-    availability = models.CharField(max_length=10, choices=AVAILABILITY_CHOICES, null=False,verbose_name=u'Dostępność')
-    categories = models.ManyToManyField(Category, null=False,verbose_name=u'Kategorie')
+    signature_ms = models.IntegerField(unique=True, null=False, verbose_name='Syg ms')
+    signature_bg = models.CharField(max_length=20, null=True, blank=True, default="", verbose_name='Syg bg')
+    responsibility = models.TextField(null=False, verbose_name='Oznaczenie odpowiedzialności')
+    title = models.TextField(null=False,verbose_name='Tytuł')
+    volume = models.CharField(max_length=100,null=True,blank=True, default="",verbose_name='Tom')
+    year = models.IntegerField(null=False,verbose_name='Rok')
+    isbn_issn = models.CharField(max_length=100,null=True,blank=True, default="",verbose_name='ISBN ISSN')
+    type = models.CharField(max_length=10, choices=TYPE_CHOICES, null=False,verbose_name='Typ')
+    availability = models.CharField(max_length=10, choices=AVAILABILITY_CHOICES, null=False,verbose_name='Dostępność')
+    categories = models.ManyToManyField(Category, null=False,verbose_name='Kategorie')
 
     def __str__(self):
-        return str(self.syg_ms)+" "+self.title
+        return str(self.signature_ms) + " " + self.title
 
     class Meta:
         verbose_name = "Książka" #Dodaj książkę
         verbose_name_plural = "Książki"
 
 class CsvImport(models.Model):
-    CSV_file = models.FileField(verbose_name=u'Plik CSV')
+    CSV_file = models.FileField(verbose_name='Plik CSV')
 
     def save(self, *args, **kwargs):
         pass
