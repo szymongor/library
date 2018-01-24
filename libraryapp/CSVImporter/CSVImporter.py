@@ -51,7 +51,7 @@ class CSVImporter:
         try:
             SYG_MS = row[0]
             SYG_BG = row[1]
-            OZN_OPDOW = row[2]
+            RESPONSIBILITY = row[2]
             TITLE = row[3]
             VOLUME = row[4]
             YEAR = row[5]
@@ -63,7 +63,7 @@ class CSVImporter:
                 with transaction.atomic():
                     book = Book.objects.create(
                         signature_ms=SYG_MS,
-                        ozn_opdow=OZN_OPDOW,
+                        responsibility=RESPONSIBILITY,
                         title=TITLE,
                         year=YEAR,
                         type=TYPE,
