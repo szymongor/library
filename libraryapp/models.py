@@ -25,7 +25,8 @@ class Book(models.Model):
     signature_ms = models.IntegerField(
         unique=True,
         null=False,
-        verbose_name='Sygnatura ms')
+        verbose_name='Sygnatura ms'
+    )
     signature_bg = models.CharField(
         max_length=20,
         null=True,

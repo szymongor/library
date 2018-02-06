@@ -8,6 +8,7 @@ class BookDAO():
 
     def get_book(self, query):
         filters = query['filters']
+        self.case_insensitive_filter(filters)
         categories = query['categories']
         books_by_categories = Book.objects.all().order_by('title', 'year')
         if len(categories) != 0:
@@ -30,3 +31,9 @@ class BookDAO():
             new_filters_upper[field] = filters[field].upper()
             new_filters_lower[field] = filters[field].lower()
         return [new_filters_lower,new_filters_upper]
+
+    def case_insensitive_filter(self,filters):
+        for field in filters:
+            if '__' not in field:
+                filters[field+'__iexact'] = filters.pop(field)
+                continue
