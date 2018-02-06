@@ -22,22 +22,66 @@ class Book(models.Model):
         ('wypożyczona','wypożyczona'),
         ('czytelnia','czytelnia'),
     )
-    signature_ms = models.IntegerField(unique=True, null=False, verbose_name='Syg ms')
-    signature_bg = models.CharField(max_length=20, null=True, blank=True, default="", verbose_name='Syg bg')
-    responsibility = models.TextField(null=False, verbose_name='Oznaczenie odpowiedzialności')
-    title = models.TextField(null=False,verbose_name='Tytuł')
-    volume = models.CharField(max_length=100,null=True,blank=True, default="",verbose_name='Tom')
-    year = models.IntegerField(null=False,verbose_name='Rok')
-    isbn_issn = models.CharField(max_length=100,null=True,blank=True, default="",verbose_name='ISBN ISSN')
-    type = models.CharField(max_length=10, choices=TYPE_CHOICES, null=False,verbose_name='Typ')
-    availability = models.CharField(max_length=10, choices=AVAILABILITY_CHOICES, null=False,verbose_name='Dostępność')
-    categories = models.ManyToManyField(Category, null=False,verbose_name='Kategorie')
+    signature_ms = models.IntegerField(
+        unique=True,
+        null=False,
+        verbose_name='Sygnatura ms')
+    signature_bg = models.CharField(
+        max_length=20,
+        null=True,
+        blank=True,
+        default="",
+        verbose_name='Sygnatura bg'
+    )
+    responsibility = models.TextField(
+        null=False,
+        verbose_name='Oznaczenie odpowiedzialności'
+    )
+    title = models.TextField(
+        null=False,
+        verbose_name='Tytuł'
+    )
+    volume = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        default="",
+        verbose_name='Tom'
+    )
+    year = models.IntegerField(
+        null=False,
+        verbose_name='Rok'
+    )
+    isbn_issn = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        default="",
+        verbose_name='ISBN ISSN'
+    )
+    type = models.CharField(
+        max_length=10,
+        choices=TYPE_CHOICES,
+        null=False,
+        verbose_name='Typ'
+    )
+    availability = models.CharField(
+        max_length=10,
+        choices=AVAILABILITY_CHOICES,
+        null=False,
+        verbose_name='Dostępność'
+    )
+    categories = models.ManyToManyField(
+        Category,
+        null=False,
+        verbose_name='Kategorie'
+    )
 
     def __str__(self):
         return str(self.signature_ms) + " " + self.title
 
     class Meta:
-        verbose_name = "Książka" #Dodaj książkę
+        verbose_name = "Książka"
         verbose_name_plural = "Książki"
 
 class CsvImport(models.Model):
