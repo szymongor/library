@@ -1,3 +1,6 @@
+. ./properies.py
+python3 -m venv $VENV
+source $VENV/bin/activate
 
 script="
 import properies
@@ -13,6 +16,7 @@ if User.objects.filter(username=username).count()==0:
 else:
     print('Superuser creation skipped.');
 "
+
 python manage.py makemigrations
 python manage.py migrate
 

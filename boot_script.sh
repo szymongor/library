@@ -1,5 +1,13 @@
 #! /bin/bash
 clear
-cd /home/biblio/library/library/
-source libvenv/bin/activate
-python manage.py runserver 157.158.16.217:8000
+
+DATE=`date '+%Y-%m-%d %H:%M:%S'`
+. ./properies.py
+
+
+cd $PROJECT_PATH
+
+echo $DATE ' boot_script' >> ${LOG_FILE}
+
+source $VENV/bin/activate
+python manage.py runserver $HOST

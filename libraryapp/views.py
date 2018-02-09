@@ -49,8 +49,8 @@ class KsiazkaList(APIView):
 class KategoriaList(APIView):
 
      def get(self, request):
-        kategorie = CategoryDAO().get_category()
-        serializer = CategoryTreeSerializer(kategorie, many=True)
+        categories = CategoryDAO().get_category()
+        serializer = CategoryTreeSerializer(categories, many=True)
         return Response(serializer.data)
 
 class DictionaryView(APIView):
