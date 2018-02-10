@@ -2,9 +2,9 @@
 clear
 
 DATE=`date '+%Y-%m-%d %H:%M:%S'`
-
+. ./properties.py
 cd $PROJECT_PATH
-. ./properies.py
+
 
 echo $DATE ' boot_script' >> ${LOG_FILE}
 
