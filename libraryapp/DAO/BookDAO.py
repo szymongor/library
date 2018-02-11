@@ -10,12 +10,12 @@ class BookDAO():
         filters = query['filters']
         self.case_insensitive_filter(filters)
         categories = query['categories']
-        books_by_categories = Book.objects.all().order_by('title', 'year')
+        books_by_categories = Book.objects.all()#.order_by('title', 'year')
         if len(categories) != 0:
             books_by_categories = Book.objects.none()
             for category in categories:
                 books_by_categories = books_by_categories | Book.objects.filter(categories__category_id=category)
-        book_query_set = books_by_categories.filter(**filters)
+        book_query_set = books_by_categories.filter(**filters).order_by('title', 'year')
         [upper_case_filters, lower_case_fitlers] = self.upperLowerCaseFilters(filters)
         book_query_set = book_query_set | books_by_categories.filter(**upper_case_filters)
         book_query_set = book_query_set | books_by_categories.filter(**lower_case_fitlers)
