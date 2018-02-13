@@ -1,5 +1,8 @@
 from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+from django.urls import reverse
 
 from .models import Book
 from .models import Category
@@ -48,15 +51,36 @@ class KsiazkaAdmin(admin.ModelAdmin):
     search_fields = ('=signature_ms', 'title','=categories__category_id',)
     filter_horizontal = ('categories',)
 
+    def save_model(self, request, obj, form, change):
+        if '_pass' in request.POST:
+            messages.set_level(request, messages.WARNING)
+            messages.warning(request, 'Nie zapisano zmian')
+            return redirect('/libraryapp/book')
+
+        else:
+            return super().save_model(request, obj, form, change)
+
     class Media:
         css = {
             'all': ('css/resize-widget.css',),
         }
-        js = ['js/resize-widget.js']
+        js = ['js/resize-widget.js','js/add-pass-button.js']
 
 class KategoriaAdmin(admin.ModelAdmin):
     list_display = ['category_id', 'category_name',]
     search_fields = ('category_id',)
+
+    def save_model(self, request, obj, form, change):
+        if '_pass' in request.POST:
+            messages.set_level(request, messages.WARNING)
+            messages.warning(request, 'Nie zapisano zmian')
+            return redirect('/libraryapp/category')
+
+        else:
+            return super().save_model(request, obj, form, change)
+
+    class Media:
+        js = ['js/add-pass-button.js']
 
 admin.site.register(Book, KsiazkaAdmin)
 admin.site.register(CsvImport, CSVAdmin)
