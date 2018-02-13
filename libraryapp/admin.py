@@ -42,7 +42,7 @@ class CSVAdmin(admin.ModelAdmin):
 class KsiazkaAdmin(admin.ModelAdmin):
     list_display = ('signature_ms','signature_bg','responsibility', 'title',
                     'volume','year','isbn_issn','type','availability',)
-    search_fields = ('signature_ms', 'title','=categories__category_id',)
+    search_fields = ('=signature_ms', 'title','=categories__category_id',)
     filter_horizontal = ('categories',)
 
 class KategoriaAdmin(admin.ModelAdmin):
