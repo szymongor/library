@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Category(models.Model):
     category_id = models.CharField(
@@ -57,6 +58,7 @@ class Book(models.Model):
     )
     year = models.IntegerField(
         null=False,
+        validators=[MinValueValidator(1000)],
         verbose_name='Rok'
     )
     isbn_issn = models.CharField(
@@ -69,12 +71,14 @@ class Book(models.Model):
     type = models.CharField(
         max_length=20,
         choices=TYPE_CHOICES,
+        default=TYPE_CHOICES[1][0],
         null=False,
         verbose_name='Typ'
     )
     availability = models.CharField(
         max_length=20,
         choices=AVAILABILITY_CHOICES,
+        default=AVAILABILITY_CHOICES[0][0],
         null=False,
         verbose_name='Dostępność'
     )

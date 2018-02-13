@@ -45,6 +45,12 @@ class KsiazkaAdmin(admin.ModelAdmin):
     search_fields = ('=signature_ms', 'title','=categories__category_id',)
     filter_horizontal = ('categories',)
 
+    class Media:
+        css = {
+            'all': ('css/resize-widget.css',),
+        # if you have saved this file in `static/css/` then the path must look like `('css/resize-widget.css',)`
+        }
+
 class KategoriaAdmin(admin.ModelAdmin):
     list_display = ['category_id', 'category_name',]
     search_fields = ('category_id',)
