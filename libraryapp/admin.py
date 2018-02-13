@@ -39,6 +39,9 @@ class CSVAdmin(admin.ModelAdmin):
 
 
 
+
+
+
 class KsiazkaAdmin(admin.ModelAdmin):
     list_display = ('signature_ms','signature_bg','responsibility', 'title',
                     'volume','year','isbn_issn','type','availability',)
@@ -48,8 +51,8 @@ class KsiazkaAdmin(admin.ModelAdmin):
     class Media:
         css = {
             'all': ('css/resize-widget.css',),
-        # if you have saved this file in `static/css/` then the path must look like `('css/resize-widget.css',)`
         }
+        js = ['js/resize-widget.js']
 
 class KategoriaAdmin(admin.ModelAdmin):
     list_display = ['category_id', 'category_name',]

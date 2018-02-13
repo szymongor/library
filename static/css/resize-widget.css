@@ -1,4 +1,4 @@
-.selector-chosen {
-    height: 100%;
+.form-horizontal .control-group .controls .selector .selector-available,
+.form-horizontal .control-group .controls .selector .selector-chosen {
+    min-height: 100%;
 }
-

@@ -5,7 +5,10 @@ class Category(models.Model):
     category_id = models.CharField(
         max_length=200,
         unique=True,
-        verbose_name='Id kategorii'
+        verbose_name='Id kategorii',
+        help_text="Aby dodać podkategorię,"
+                  +" należy wpisać id kategorii głównej i po myślniku id podkategorii,"
+                  +" np 'G_00-S_00'"
     )
     category_name = models.TextField(
         verbose_name='Nazwa kategorii'
@@ -95,14 +98,24 @@ class Book(models.Model):
         verbose_name = "Książka"
         verbose_name_plural = "Książki"
 
+def validate_file_extension(value):
+    import os
+    from django.core.exceptions import ValidationError
+    ext = os.path.splitext(value.name)[1]
+    valid_extensions = ['.xml']
+    if not ext.lower() in valid_extensions:
+        raise ValidationError('Plik powinien mieć rozszerzenie .CSV')
+
 class CsvImport(models.Model):
-    CSV_file = models.FileField(verbose_name='Plik CSV')
+    CSV_file = models.FileField(verbose_name='Plik CSV',validators=[validate_file_extension])
 
     def save(self, *args, **kwargs):
         pass
 
     def __str__(self):
         return self.CSV_file.name
+
+
 
     class Meta:
         verbose_name = "CSV"
