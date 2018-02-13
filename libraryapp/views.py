@@ -88,5 +88,5 @@ class CsvImport(APIView):
         file_obj.close()
         return Response(data)
 
-def library_site(request):
-    return render(request, 'librarysite/index.html', {})
+# def library_site(request):
+#     return render(request, 'librarysite/index.html', {})
