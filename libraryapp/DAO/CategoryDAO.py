@@ -13,10 +13,12 @@ class CategoryDAO:
         return categories
 
     def get_main_categories(self):
-        main_categories = Category.objects.exclude(category_id__contains="-")
+        main_categories = Category.objects.exclude(category_id__contains="-").extra(\
+    select={'lower_name':'lower(category_name)'}).order_by('lower_name')
         return main_categories
 
     def get_subcategories(self, main_category):
         subcategory_id=main_category.category_id + "-"
-        subcategories = Category.objects.filter(category_id__contains=subcategory_id)
+        subcategories = Category.objects.filter(category_id__contains=subcategory_id).extra( \
+            select={'lower_name': 'lower(category_name)'}).order_by('lower_name')
         return subcategories

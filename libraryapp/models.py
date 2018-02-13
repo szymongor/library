@@ -67,13 +67,13 @@ class Book(models.Model):
         verbose_name='ISBN ISSN'
     )
     type = models.CharField(
-        max_length=10,
+        max_length=20,
         choices=TYPE_CHOICES,
         null=False,
         verbose_name='Typ'
     )
     availability = models.CharField(
-        max_length=10,
+        max_length=20,
         choices=AVAILABILITY_CHOICES,
         null=False,
         verbose_name='Dostępność'
