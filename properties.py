@@ -1,4 +1,4 @@
-PROJECT_PATH="/home/szym/Dokumenty/libproject/"
+PROJECT_PATH="/home/<path_to>/libproject/"
 VENV="libvenv"
 HOST="127.0.0.1:8000"
 LOG_FILE="logs"
