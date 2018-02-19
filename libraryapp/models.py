@@ -18,7 +18,7 @@ class Category(models.Model):
         return self.category_id + " " + self.category_name
 
     class Meta:
-        verbose_name = "Kategoria" #Dodaj książkę
+        verbose_name = "kat."
         verbose_name_plural = "Kategorie"
 
 class Book(models.Model):
