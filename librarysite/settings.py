@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'libraryapp',
     'rest_framework',
+    'corsheaders',
     
 ]
 
@@ -56,6 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'librarysite.urls'
@@ -131,4 +134,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
+)
+
+##Cors conf
+
+CORS_ORIGIN_WHITELIST = (
+    '157.158.16.217:8000',
+    'localhost:8000',
+    '127.0.0.1:8000'
 )
