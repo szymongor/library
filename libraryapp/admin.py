@@ -68,7 +68,7 @@ class KsiazkaAdmin(admin.ModelAdmin):
 
 class KategoriaAdmin(admin.ModelAdmin):
     list_display = ['category_id', 'category_name',]
-    search_fields = ('category_id',)
+    search_fields = ('category_id', 'category_name',)
 
     def save_model(self, request, obj, form, change):
         if '_pass' in request.POST:
