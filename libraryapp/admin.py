@@ -48,7 +48,7 @@ class CSVAdmin(admin.ModelAdmin):
 class KsiazkaAdmin(admin.ModelAdmin):
     list_display = ('signature_ms','signature_bg','responsibility', 'title',
                     'volume','year','isbn_issn','type','availability',)
-    search_fields = ('=signature_ms', 'title','=categories__category_id',)
+    search_fields = ('=signature_ms', 'title','=categories__category_id','categories__category_name')
     filter_horizontal = ('categories',)
 
     def save_model(self, request, obj, form, change):
