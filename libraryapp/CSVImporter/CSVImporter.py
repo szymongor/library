@@ -18,7 +18,7 @@ class CSVImporter:
         import_status_collection = ResponseStatusCollection()
         first_line = file_object.readline()
 
-        csv_reader = csv.reader(file_object, delimiter=',', quotechar='"')
+        csv_reader = csv.reader(file_object, delimiter=';', quotechar='"')
 
         import_type = self.choose_import_type_by_first_line(first_line)
         if import_type == BOOKS:
