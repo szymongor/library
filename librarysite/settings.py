@@ -132,8 +132,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
 
+REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend')
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
+    os.path.join(REACT_APP_DIR, 'build', 'static'),
 )
 
 ##Cors conf
@@ -142,5 +145,7 @@ CORS_ORIGIN_WHITELIST = (
     '157.158.16.217:8000',
     'localhost:3000',
     'localhost:8000',
-    '127.0.0.1:8000'
+    '127.0.0.1:8000',
+    'localhost:5000',
+    '127.0.0.1:5000'
 )

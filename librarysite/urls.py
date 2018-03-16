@@ -9,6 +9,7 @@ urlpatterns = [
     path('books', views.KsiazkaList.as_view()),
     path('categories', views.KategoriaList.as_view()),
     path('dictionary', views.DictionaryView.as_view()),
+    path('student/*', views.FrontendAppView.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
